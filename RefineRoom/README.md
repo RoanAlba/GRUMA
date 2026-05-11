@@ -1477,3 +1477,129 @@ ProbabilityCore と LearningCore に “工程の状態” を渡す。
 
 [LearningCore] → InternalScore → [ProbabilityCore]  
 [LearningCore] → Personal
+
+# ■ FactoryRoom 内部構造図（統合版・ブロック1つ）
+
+FactoryRoom は、売れる確率アルゴリズムと学習システムを
+内部で処理する “中枢工場” として動作する。
+
+内部には以下の3つのコアが配置される。
+
+------------------------------------------------------------
+# ■ ① ProbabilityCore（売れる確率コア）
+
+FactoryRoom の中央に配置される “脳”。
+
+【役割】
+- 工程ごとの MarketScore を計算
+- 形・光・色・質感の Boost を計算
+- Undo 時は逆順で確率を巻き戻す
+- 最終確率を確定する
+
+【入力】
+- 市場データ（5市場）
+- InternalScore（LearningCore）
+- PersonalScore（LearningCore）
+- CurrentProcess（ProcessSync）
+
+【出力】
+- UpdatedProbability（更新後の確率）
+- FinalProbability（最終確率）
+
+------------------------------------------------------------
+# ■ ② LearningCore（学習コア）
+
+FactoryRoom の左側に配置される “記憶装置”。
+
+【役割】
+- 選択学習（Choice Learning）
+- 行動学習（Behavior Learning）
+- 結果学習（Result Learning）
+- InternalScore と PersonalScore を生成
+
+【入力】
+- ProcessLog（ProcessSync）
+- 作者の選択履歴（RefineRoom）
+- 完成作品の結果（売れた／売れなかった）
+
+【出力】
+- InternalScore（工程別）
+- InternalScore総合
+- PersonalScore（直感係数）
+
+------------------------------------------------------------
+# ■ ③ ProcessSync（工程同期モジュール）
+
+FactoryRoom の右側に配置される “工程監視塔”。
+
+【役割】
+- 工程の開始・終了を検知
+- 工程の滞在時間を記録
+- 調整量・回数を記録
+- Undo の巻き戻しを管理
+
+【出力】
+- CurrentProcess（現在の工程）
+- ProcessLog（工程ログ）
+- ProcessIntensity（調整量）
+
+------------------------------------------------------------
+# ■ FactoryRoom 内のデータ流路（構造図）
+
+                ┌───────────────┐
+                │   LearningCore   │
+                │ （学習コア）      │
+                └───────┬─────────┘
+                        │ InternalScore
+                        │ PersonalScore
+                        ▼
+┌───────────────┐     工程状態     ┌───────────────┐
+│   ProcessSync    │ ───────────→ │ ProbabilityCore │
+│（工程同期）       │               │（確率コア）      │
+└───────┬─────────┘ ←───────────┘
+        │ ProcessLog          UpdatedProbability
+        │                     FinalProbability
+        ▼
+   LearningCore（学習）
+
+※ RefineRoom は “UpdatedProbability を受け取って表示するだけ”。
+
+------------------------------------------------------------
+# ■ 工程順での動作
+
+【① 素材選び】
+ProcessSync → ProbabilityCore（初期確率）
+ProcessSync → LearningCore（選択学習）
+
+【② 形】
+ProcessSync → ProbabilityCore（形ブースト）
+ProcessSync → LearningCore（行動学習）
+
+【③ 光】
+ProcessSync → ProbabilityCore（光ブースト）
+ProcessSync → LearningCore（行動学習）
+
+【④ 色】
+ProcessSync → ProbabilityCore（色ブースト）
+ProcessSync → LearningCore（行動学習）
+
+【⑤ 質感】
+ProcessSync → ProbabilityCore（質感ブースト）
+ProcessSync → LearningCore（行動学習）
+
+【⑥ 仕上げ】
+ProcessSync → ProbabilityCore（最終確率）
+ProcessSync → LearningCore（結果学習）
+
+【Undo】
+ProcessSync → ProbabilityCore（確率を逆順で巻き戻す）
+※ LearningCore は更新しない（学習は巻き戻さない）
+
+------------------------------------------------------------
+# ■ 目的
+
+- FactoryRoom を “売れる確率を計算する工場” にする
+- FactoryRoom を “使うほど賢くなる工場” にする
+- RefineRoom は UI として軽く保つ
+- 工程の動きと確率計算を完全同期させる
+- Undo を自然に巻き戻す
