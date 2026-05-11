@@ -1394,3 +1394,91 @@ ChoiceLearning × BehaviorLearning × ResultLearning
 - 作者の「弱み」を自然に減衰させる  
 - 使うほど売れる確率が上がる工場にする  
 - GRUMA を “作者専用に進化する装置” にする
+
+# ■ FactoryRoom 接続仕様（Core Integration）
+
+FactoryRoom は、以下の 3 つのモジュールを内部に持つ。
+
+- ProbabilityCore（売れる確率コア）
+- LearningCore（学習コア）
+- ProcessSync（工程同期モジュール）
+
+これらは RefineRoom（操作卓）とは独立して動作し、  
+FactoryRoom 内で完結して計算・学習を行う。
+
+---
+
+# ■ ① ProbabilityCore（売れる確率コア）
+
+ProbabilityCore は、工程が進むたびに  
+「売れる確率」を計算・更新する中枢モジュール。
+
+### 入力
+- 市場データ（5市場）
+- 内部データ（LearningCore から）
+- 固有データ（作者の選択履歴）
+- 工程の状態（ProcessSync から）
+
+### 出力
+- UpdatedProbability（更新後の確率）
+- FinalProbability（最終確率）
+
+### 役割
+- 工程ごとの MarketScore を計算
+- 工程ごとの Boost（形・光・色・質感）を計算
+- Undo 時は逆順で確率を巻き戻す
+
+---
+
+# ■ ② LearningCore（学習コア）
+
+LearningCore は、FactoryRoom の動きを監視し、  
+作者の操作・結果を学習して内部データを更新する。
+
+### 入力
+- 工程ログ（ProcessSync から）
+- 作者の選択履歴（RefineRoom から）
+- 完成作品の結果（売れた／売れなかった）
+
+### 出力
+- InternalScore（工程別）
+- InternalScore総合（最終）
+- PersonalScore（作者の直感係数）
+
+### 役割
+- 選択学習（Choice Learning）
+- 行動学習（Behavior Learning）
+- 結果学習（Result Learning）
+- 内部データの蓄積と更新
+
+---
+
+# ■ ③ ProcessSync（工程同期モジュール）
+
+FactoryRoom 内のすべての工程を監視し、  
+ProbabilityCore と LearningCore に “工程の状態” を渡す。
+
+### 監視する工程
+- 素材選び
+- 形（Shape）
+- 光（Light）
+- 色（Color）
+- 質感（Texture）
+- 仕上げ（Finish）
+- Undo（逆再生）
+
+### 出力
+- CurrentProcess（現在の工程）
+- ProcessLog（工程ログ）
+- ProcessIntensity（どれだけ調整したか）
+
+### 役割
+- 工程の開始・終了を検知
+- 工程の滞在時間を記録
+- 調整量・回数を記録
+- Undo の巻き戻しを管理
+
+---
+
+# ■ FactoryRoom 内でのデータの流れ
+
