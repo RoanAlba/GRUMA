@@ -1395,70 +1395,67 @@ ChoiceLearning × BehaviorLearning × ResultLearning
 - 使うほど売れる確率が上がる工場にする  
 - GRUMA を “作者専用に進化する装置” にする
 
-# ■ FactoryRoom 接続仕様（Core Integration）
+# ■ FactoryRoom 接続仕様（統合版・ブロック1つ）
 
-FactoryRoom は、以下の 3 つのモジュールを内部に持つ。
+FactoryRoom は、売れる確率アルゴリズムと学習システムを内部で処理する
+“中枢工場” として動作する。
+
+内部には以下の3モジュールが存在する。
 
 - ProbabilityCore（売れる確率コア）
 - LearningCore（学習コア）
 - ProcessSync（工程同期モジュール）
 
-これらは RefineRoom（操作卓）とは独立して動作し、  
+これらは RefineRoom（操作卓）とは独立して動作し、
 FactoryRoom 内で完結して計算・学習を行う。
 
----
-
+------------------------------------------------------------
 # ■ ① ProbabilityCore（売れる確率コア）
 
-ProbabilityCore は、工程が進むたびに  
-「売れる確率」を計算・更新する中枢モジュール。
+工程が進むたびに「売れる確率」を計算・更新する中枢。
 
-### 入力
+【入力】
 - 市場データ（5市場）
-- 内部データ（LearningCore から）
-- 固有データ（作者の選択履歴）
-- 工程の状態（ProcessSync から）
+- InternalScore（LearningCore から）
+- PersonalScore（LearningCore から）
+- CurrentProcess（ProcessSync から）
 
-### 出力
+【出力】
 - UpdatedProbability（更新後の確率）
 - FinalProbability（最終確率）
 
-### 役割
+【役割】
 - 工程ごとの MarketScore を計算
-- 工程ごとの Boost（形・光・色・質感）を計算
+- 形・光・色・質感の Boost を計算
 - Undo 時は逆順で確率を巻き戻す
 
----
-
+------------------------------------------------------------
 # ■ ② LearningCore（学習コア）
 
-LearningCore は、FactoryRoom の動きを監視し、  
-作者の操作・結果を学習して内部データを更新する。
+FactoryRoom の動きを監視し、作者の操作・結果を学習する。
 
-### 入力
-- 工程ログ（ProcessSync から）
+【入力】
+- ProcessLog（ProcessSync から）
 - 作者の選択履歴（RefineRoom から）
 - 完成作品の結果（売れた／売れなかった）
 
-### 出力
+【出力】
 - InternalScore（工程別）
 - InternalScore総合（最終）
 - PersonalScore（作者の直感係数）
 
-### 役割
+【役割】
 - 選択学習（Choice Learning）
 - 行動学習（Behavior Learning）
 - 結果学習（Result Learning）
-- 内部データの蓄積と更新
 
----
-
+------------------------------------------------------------
 # ■ ③ ProcessSync（工程同期モジュール）
 
-FactoryRoom 内のすべての工程を監視し、  
+FactoryRoom 内のすべての工程を監視し、
 ProbabilityCore と LearningCore に “工程の状態” を渡す。
 
-### 監視する工程
+【監視する工程】
 - 素材選び
 - 形（Shape）
 - 光（Light）
@@ -1467,18 +1464,16 @@ ProbabilityCore と LearningCore に “工程の状態” を渡す。
 - 仕上げ（Finish）
 - Undo（逆再生）
 
-### 出力
+【出力】
 - CurrentProcess（現在の工程）
 - ProcessLog（工程ログ）
-- ProcessIntensity（どれだけ調整したか）
+- ProcessIntensity（調整量）
 
-### 役割
-- 工程の開始・終了を検知
-- 工程の滞在時間を記録
-- 調整量・回数を記録
-- Undo の巻き戻しを管理
+------------------------------------------------------------
+# ■ FactoryRoom 内でのデータの流れ（図）
 
----
+[ProcessSync] → 工程状態 → [ProbabilityCore]  
+[ProcessSync] → 工程ログ → [LearningCore]
 
-# ■ FactoryRoom 内でのデータの流れ
-
+[LearningCore] → InternalScore → [ProbabilityCore]  
+[LearningCore] → Personal
