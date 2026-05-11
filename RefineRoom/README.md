@@ -1084,3 +1084,109 @@ Undo を行うと、確率も逆再生される。
 - 市場データの偏りを避ける（Etsy依存を防ぐ）
 - 作者の強みと直感を確率に反映する
 - “売れる確率を高める工場” として機能させる
+
+# ■ 市場データの重み付け（Weight Map）
+
+売れる確率アルゴリズムは、以下の 5 市場データを  
+「重み付け（Weight）」として統合して使用する。
+
+重み付けは工程ごとに異なり、  
+市場の特性に応じて最適化されている。
+
+---
+
+# ■ 基本重み（全工程共通の基礎値）
+
+Etsy：0.30  
+Pinterest：0.20  
+Instagram：0.25  
+Amazon：0.15  
+海外小規模市場：0.10  
+
+合計：1.00
+
+※ この比率は “市場の信頼度 × 影響度” を基準に設定。
+
+---
+
+# ■ 工程別の重み補正（Process Weight Shift）
+
+工程ごとに市場の影響度が変化する。  
+以下は「補正後の最終重み」。
+
+---
+
+## ① 素材選び（Initial Weight）
+Etsy：0.30  
+Pinterest：0.25  
+Instagram：0.15  
+Amazon：0.20  
+海外小規模市場：0.10  
+
+理由：素材は「世界観（Pinterest）」と「大衆色（Amazon）」の影響が強い。
+
+---
+
+## ② 形（Shape Weight）
+Etsy：0.40  
+Pinterest：0.10  
+Instagram：0.30  
+Amazon：0.15  
+海外小規模市場：0.05  
+
+理由：形は「Etsy（売れ筋）」と「Instagram（写真映え）」が中心。
+
+---
+
+## ③ 光（Light Weight）
+Etsy：0.20  
+Pinterest：0.20  
+Instagram：0.45  
+Amazon：0.10  
+海外小規模市場：0.05  
+
+理由：光は「Instagram（映え）」が圧倒的に強い。
+
+---
+
+## ④ 色（Color Weight）
+Etsy：0.25  
+Pinterest：0.25  
+Instagram：0.10  
+Amazon：0.35  
+海外小規模市場：0.05  
+
+理由：色は「Amazon（大衆色）」と「Pinterest（空気感）」が支配的。
+
+---
+
+## ⑤ 質感（Texture Weight）
+Etsy：0.30  
+Pinterest：0.10  
+Instagram：0.45  
+Amazon：0.10  
+海外小規模市場：0.05  
+
+理由：質感は「Instagram（質感映え）」が最重要。
+
+---
+
+## ⑥ 仕上げ（Final Integration Weight）
+Etsy：0.30  
+Pinterest：0.20  
+Instagram：0.25  
+Amazon：0.15  
+海外小規模市場：0.10  
+
+理由：最終確率は “全市場の平均的な重み” に戻す。
+
+---
+
+# ■ 重み付けの目的
+- Etsy 依存を避ける（偏り防止）
+- 工程ごとに市場の影響度を最適化する
+- 世界観（Pinterest）と映え（Instagram）を自然に統合
+- 大衆色（Amazon）を色工程で最大化
+- ニッチ市場を常に 10% 以下で安定化
+- 売れる確率を「現実 × 世界観 × 映え × 大衆 × ニッチ」で構成する
+
