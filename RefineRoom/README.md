@@ -1190,3 +1190,108 @@ Amazon：0.15
 - ニッチ市場を常に 10% 以下で安定化
 - 売れる確率を「現実 × 世界観 × 映え × 大衆 × ニッチ」で構成する
 
+# ■ 売れる確率アルゴリズム（計算式版）
+
+売れる確率は、以下の 3 層のデータを掛け合わせて算出する。
+
+- 外部市場データ（5市場）
+- 内部データ（作者の作品履歴）
+- 固有データ（作者の選択・直感）
+
+工程が進むごとに確率が更新され、最終工程で確定する。
+
+---
+
+# ■ 基本式（全工程共通）
+
+市場スコア（MarketScore）  
+=  
+(Etsy × wE)  
++ (Pinterest × wP)  
++ (Instagram × wI)  
++ (Amazon × wA)  
++ (海外市場 × wN)
+
+内部スコア（InternalScore）  
+= 作者の作品履歴から算出した「強み係数」
+
+固有スコア（PersonalScore）  
+= 作者の選択履歴・直感から算出した「個性係数」
+
+---
+
+# ■ 初期確率（素材選び）
+
+InitialProbability  
+= MarketScore素材 × InternalScore素材 × PersonalScore素材
+
+※ 素材選び時点で「売れる確率：XX%」として表示。
+
+---
+
+# ■ 工程別の確率更新式
+
+## ① 形（Shape）
+
+ShapeBoost  
+= MarketScore形 × InternalScore形 × PersonalScore形
+
+UpdatedProbability  
+= InitialProbability × ShapeBoost
+
+---
+
+## ② 光（Light）
+
+LightBoost  
+= MarketScore光 × InternalScore光 × PersonalScore光
+
+UpdatedProbability  
+= PreviousProbability × LightBoost
+
+---
+
+## ③ 色（Color）
+
+ColorBoost  
+= MarketScore色 × InternalScore色 × PersonalScore色
+
+UpdatedProbability  
+= PreviousProbability × ColorBoost  
+※ 色ブーストは最大影響（ColorBoost の上限値を高めに設定）
+
+---
+
+## ④ 質感（Texture）
+
+TextureBoost  
+= MarketScore質感 × InternalScore質感 × PersonalScore質感
+
+UpdatedProbability  
+= PreviousProbability × TextureBoost
+
+---
+
+# ■ 最終確率（仕上げ）
+
+FinalProbability  
+= UpdatedProbability × InternalScore総合 × PersonalScore最終補正
+
+※ プレスアームを下げた瞬間に確定。
+
+---
+
+# ■ Undo（逆再生）
+
+UndoProbability  
+= 各工程の逆順で確率を巻き戻す  
+（仕上げ → 質感 → 色 → 光 → 形 → 素材）
+
+---
+
+# ■ 計算式の目的
+
+- 工程が進むほど売れる確率が上がる構造を作る  
+- 市場データの偏りを避ける（Etsy依存を防ぐ）  
+- 作者の強みと直感を確率に反映する  
+- “売れる確率を高める工場” として機能させる
