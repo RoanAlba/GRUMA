@@ -1,44 +1,48 @@
+# RefineRoom_Machines 総合仕様
 
-# FactoryRoom 総合仕様
+RefineRoom_Machines は GRUMA における  
+「作品の実体（身体）を生成し、儀式によって完成へ導く内部機構」である。
 
-FactoryRoom は GRUMA における「巨大な加工工場」であり、  
-RefineRoom の操作を受けて実際に素材を加工し、作品の“実体”を作る場所である。
+RefineRoom（操作・魂）で行われた調整・儀式・意図は  
+すべてこの内部機構に流れ込み、  
+形・光・色・質感として実体化される。
 
-本仕様は FactoryRoom の全構造・工程ライン・内部ユニット・学習・儀式・世界観を統合した親ファイルである。
+本仕様は RefineRoom_Machines の  
+全構造・工程ライン・内部ユニット・学習・儀式・世界観を統合した親ファイルである。
 
 ---
 
-# 1. FactoryRoom の目的（Purpose）
+## 1. RefineRoom_Machines の目的（Purpose）
 
-FactoryRoom は以下を担う：
+RefineRoom_Machines は以下を担う：
 
-- 素材の加工（形・光・色・質感）
-- RefineRoom の操作値を実体化
-- 工程ラインによる段階処理
-- 保存・出品の最終儀式
-- 学習システムによる最適化
+- 素材の加工（形・光・色・質感）  
+- RefineRoom の操作値を実体化  
+- 工程ラインによる段階処理  
+- 保存・出品の最終儀式  
+- 学習システムによる最適化  
 
 RefineRoom が「魂の部屋」なら、  
-FactoryRoom は **「身体を作る巨大工場」** である。
+RefineRoom_Machines は **「身体を作る内部機構」** である。
 
 ---
 
-# 2. FactoryRoom 全体構造（Overview）
+## 2. RefineRoom_Machines 全体構造（Overview）
 
-FactoryRoom は以下の 5 つの巨大ラインで構成される：
+RefineRoom_Machines は以下の 5 つの巨大ラインで構成される：
 
-1. 成形ライン（Shape Line）  
-2. 光反射ライン（Light Line）  
-3. 色処理ライン（Color Line）  
-4. 微粒子ライン（Texture Line）  
-5. 仕上げライン（Finish Line）  
+- 成形ライン（Shape Line）  
+- 光反射ライン（Light Line）  
+- 色処理ライン（Color Line）  
+- 微粒子ライン（Texture Line）  
+- 仕上げライン（Finish Line）  
 
 これらは階層的に配置され、  
 RefineRoom の操作に応じて順番に動く。
 
 ---
 
-# 3. 工程ラインの流れ（Flow）
+## 3. 工程ラインの流れ（Flow）
 
 成形ライン  
 　↓  
@@ -50,14 +54,14 @@ RefineRoom の操作に応じて順番に動く。
 　↓  
 仕上げライン（出口）
 
-RefineRoom の操作はこの順番で FactoryRoom を通過し、  
+RefineRoom の操作はこの順番で内部機構を通過し、  
 最終的にプレビューへ戻る。
 
 ---
 
-# 4. 各ラインの内部構造（Internal Units）
+## 4. 各ラインの内部構造（Internal Units）
 
-## ● 成形ライン
+### ● 成形ライン
 - 素材受け取りユニット  
 - 外形生成ユニット  
 - 厚み・曲率ユニット  
@@ -65,7 +69,7 @@ RefineRoom の操作はこの順番で FactoryRoom を通過し、
 - 形状安定化ユニット  
 - 出口（光反射ラインへ）
 
-## ● 光反射ライン
+### ● 光反射ライン
 - 光学初期化ユニット  
 - 反射計算ユニット  
 - ハイライト生成ユニット  
@@ -74,7 +78,7 @@ RefineRoom の操作はこの順番で FactoryRoom を通過し、
 - 光安定化ユニット  
 - 出口（色処理ラインへ）
 
-## ● 色処理ライン
+### ● 色処理ライン
 - 色処理初期化ユニット  
 - 色相ユニット  
 - 彩度ユニット  
@@ -83,7 +87,7 @@ RefineRoom の操作はこの順番で FactoryRoom を通過し、
 - 色安定化ユニット  
 - 出口（微粒子ラインへ）
 
-## ● 微粒子ライン
+### ● 微粒子ライン
 - 質感初期化ユニット  
 - 粗さユニット  
 - 滑らかさユニット  
@@ -92,7 +96,7 @@ RefineRoom の操作はこの順番で FactoryRoom を通過し、
 - 質感安定化ユニット  
 - 出口（仕上げラインへ）
 
-## ● 仕上げライン
+### ● 仕上げライン
 - 統合初期化ユニット  
 - 統合レンダリングユニット  
 - 最終光処理ユニット  
@@ -103,7 +107,7 @@ RefineRoom の操作はこの順番で FactoryRoom を通過し、
 
 ---
 
-# 5. RefineRoom との接続（Link）
+## 5. RefineRoom との接続（Link）
 
 - 素材スロット → 成形ライン  
 - 光量レバー → 光反射ライン  
@@ -111,25 +115,26 @@ RefineRoom の操作はこの順番で FactoryRoom を通過し、
 - 質感レバー → 微粒子ライン  
 - 保存レバー → 仕上げライン（保存処理）  
 - 出品レバー → 仕上げライン（最終儀式）  
-- 図面モード → 成形ライン（線図データ）
+- 図面モード → 成形ライン（線図データ）  
 
-FactoryRoom は RefineRoom の操作を“実体化”する役割を持つ。
+RefineRoom_Machines は  
+RefineRoom の操作を **“実体化”** する役割を持つ。
 
 ---
 
-# 6. 保存・出品（儀式具との関係）
+## 6. 保存・出品（儀式具との関係）
 
-## ● 保存レバー
+### ● 保存レバー
 - 仕上げラインの保存処理ユニットが動作  
 - 現在の全データを記録  
 - UI System にカード生成  
-- プレビューが +2% 明るくなる  
+- プレビューが **+2% 明るくなる**
 
-## ● 出品レバー
+### ● 出品レバー
 - 仕上げラインの出品処理ユニットが動作  
 - 全データを不可逆状態に固定  
 - 完了カードを生成  
-- 画面が 25% 暗転  
+- 画面が **25% 暗転**  
 - プレビューが深い呼吸  
 
 保存＝状態の刻印  
@@ -137,9 +142,9 @@ FactoryRoom は RefineRoom の操作を“実体化”する役割を持つ。
 
 ---
 
-# 7. 学習システム（Learning System）
+## 7. 学習システム（Learning System）
 
-FactoryRoom の学習システムは  
+RefineRoom_Machines の学習システムは  
 RefineRoom の操作ログを吸収し、以下を最適化する：
 
 - 形状の傾向  
@@ -148,13 +153,14 @@ RefineRoom の操作ログを吸収し、以下を最適化する：
 - 質感の傾向  
 - 最終工程の成功率  
 
-時間とともに作品が“自然に良く見える”方向へ進化する。
+時間とともに作品が  
+**“自然に良く見える”** 方向へ進化する。
 
 ---
 
-# 8. 世界観（Worldview）
+## 8. 世界観（Worldview）
 
-FactoryRoom は以下の特徴を持つ：
+RefineRoom_Machines は以下の特徴を持つ：
 
 - 巨大な機械群  
 - 真鍮・鉄・蒸気  
@@ -163,21 +169,20 @@ FactoryRoom は以下の特徴を持つ：
 - UI には音を出さない（裏側の世界として存在）  
 
 RefineRoom＝魂  
-FactoryRoom＝身体
+RefineRoom_Machines＝身体
 
 ---
 
-# 9. FactoryRoom の本質（Essence）
+## 9. RefineRoom_Machines の本質（Essence）
 
-FactoryRoom は  
-**「作品の実体を作り、儀式によって完成へ導く巨大工場」**。
+RefineRoom_Machines は  
+**「作品の実体を作り、儀式によって完成へ導く内部機構」**。
 
-- 形  
-- 光  
-- 色  
-- 質感  
-- 儀式  
+形  
+光  
+色  
+質感  
+儀式  
 
-これらすべてが FactoryRoom の中で統合され、  
-作品は“完成品”として生まれる。
-
+これらすべてが RefineRoom_Machines の中で統合され、  
+作品は “完成品” として生まれる。
